@@ -1,13 +1,13 @@
-package permyakov_skorokhodov.api_sender;
+package permyakov_skorokhodov.sms_sender;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApiSenderApplication {
+public class SmsSenderApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiSenderApplication.class, args);
+		SpringApplication.run(SmsSenderApplication.class, args);
 	}
 
 }
