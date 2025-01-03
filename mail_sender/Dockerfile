@@ -1,4 +1,10 @@
+FROM maven:3.8.5-openjdk-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
 FROM openjdk:17-jdk-slim
-WORKDIR /email
-COPY target/mail_sender-0.0.1-SNAPSHOT.jar email.jar
-ENTRYPOINT ["java", "-jar", "email.jar"]
+WORKDIR /app
+COPY --from=build /app/target/mail_sender-0.0.1-SNAPSHOT.jar mail.jar
+ENTRYPOINT ["java", "-jar", "mail.jar"]
