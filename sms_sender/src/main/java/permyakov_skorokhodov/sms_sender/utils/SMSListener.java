@@ -5,16 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import permyakov_skorokhodov.sms_sender.service.SMSService;
-import com.twilio.rest.api.v2010.account.Message;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class SMSListener {
-	
+
 	@Autowired
 	private SMSService smsService;
 
 	@RabbitListener(queues = "smsQueue")
-	public Message sendSMS(SMSDTO dto) {
-		return smsService.sendSMS(dto);
+	public void sendSMS(String jsonString) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			SMSDTO smsdto = objectMapper.readValue(jsonString, SMSDTO.class);
+			smsService.sendSMS(smsdto);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }
